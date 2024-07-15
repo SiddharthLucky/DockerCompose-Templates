@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    ports:
+      - "8200:8200"
+    volumes:
+      - HCVaultFile_Vol:/vault/file
+      - HCVaultLogs_Vol:/vault/logs
+    cap_add:
+      - IPC_LOCK
+    networks:
+      docker-static-network:
+        ipv4_address: 192.168.1.211
+    
+volumes:
+  HCVaultFile_Vol:
+  HCVaultLogs_Vol:
+networks:
+  docker-static-network:
+    external: true
