@@ -6,6 +6,7 @@ services:
     container_name: vault
     ports:
       - "8200:8200"
+    user: "valut"
     volumes:
       - HCVaultFile_Vol:/vault/file
       - HCVaultLogs_Vol:/vault/logs

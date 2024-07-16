@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   postgres:
-    container_name: postgres_container
+    container_name: postgres
     image: postgres
     restart: always
     environment:
@@ -11,6 +11,7 @@ services:
       POSTGRES_DB: api-db
     ports:
       - "5432:5432"
+    user: "postgres"
     volumes:
       - PostgresDB_Vol:/var/lib/postgresql/data
     networks:
@@ -19,7 +20,10 @@ services:
 
   
   pgadmin:
-    container_name: pgadmin4_container
+    container_name: pgadmin4
+    networks:
+      docker-static-network:
+        ipv4_address: 192.168.1.213
     image: dpage/pgadmin4
     restart: always
     environment:
@@ -30,6 +34,7 @@ services:
     volumes:
       - PGAdmin4_Vol:/var/lib/pgadmin4
       - PGAdmin_Vol:/var/lib/pgadmin
+    user: "pgadmin"
     depends_on:
       - postgres
 
