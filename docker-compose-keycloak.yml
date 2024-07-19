@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: start-dev
+    container_name: keycloak_local
+    ports:
+      - "7001:8080"
+    restart: unless-stopped
+    networks:
+      docker-static-network:
+        ipv4_address: 192.168.1.210
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak_db
+      DB_USER: admin
+      DB_PASSWORD: 1234
+      KEYCLOAK_USER: user
+      KEYCLOAK_PASSWORD: 1234
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: 1234
+
+networks:
+  docker-static-network:
+    external: true
