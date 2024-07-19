@@ -12,11 +12,12 @@ services:
       docker-static-network:
         ipv4_address: 192.168.1.210
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
-      DB_DATABASE: keycloak_db
-      DB_USER: admin
-      DB_PASSWORD: 1234
+      KC_DB: postgres
+      KC_DB_URL_DATABASE: keycloak_db
+      #Host name/ip address where the postgres is hosted
+      KC_DB_URL_HOST: 192.168.1.212
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: 1234
       KEYCLOAK_USER: user
       KEYCLOAK_PASSWORD: 1234
       KEYCLOAK_ADMIN: admin
