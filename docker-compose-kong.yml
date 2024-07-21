@@ -56,6 +56,7 @@ services:
         ipv4_address: 192.168.8.185  # Ensure this IP is not in use
     depends_on:
       - kong
+    #To access kong you need to use URL http://kong:8001
 
 networks:
   docker-static-network:
