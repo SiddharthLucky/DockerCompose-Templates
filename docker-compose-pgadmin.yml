@@ -16,14 +16,14 @@ services:
       - PostgresDB_Vol:/var/lib/postgresql/data
     networks:
       docker-static-network:
-        ipv4_address: 192.168.1.212
+        ipv4_address: 192.168.8.183
 
   
   pgadmin:
     container_name: pgadmin4
     networks:
       docker-static-network:
-        ipv4_address: 192.168.1.213
+        ipv4_address: 192.168.8.184
     image: dpage/pgadmin4
     restart: always
     environment:

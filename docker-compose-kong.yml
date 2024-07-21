@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  kong-migrations:
+    image: kong:latest
+    container_name: kong-migrations
+    environment:
+      KONG_DATABASE: "postgres"
+      KONG_PG_HOST: "192.168.8.183"
+      KONG_PG_PORT: "5432"
+      KONG_PG_USER: "admin"
+      KONG_PG_PASSWORD: "1234"  # Replace with the actual password
+      KONG_PG_DATABASE: "kong_db"
+    command: [ "kong", "migrations", "bootstrap" ]
+    networks:
+      docker-static-network:
+        ipv4_address: 192.168.8.186
+
+  kong:
+    image: kong:latest
+    container_name: kong
+    ports:
+      - "8000:8000"  # Proxy
+      - "8443:8443"  # Proxy SSL
+      - "8001:8001"  # Admin API
+      - "8444:8444"  # Admin API SSL
+    environment:
+      KONG_DATABASE: "postgres"
+      KONG_PG_HOST: "192.168.8.183"
+      KONG_PG_PORT: "5432"
+      KONG_PG_USER: "admin"
+      KONG_PG_PASSWORD: "1234"
+      KONG_PG_DATABASE: "kong_db"
+      KONG_CASSANDRA_CONTACT_POINTS: "kong-database"
+      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+      KONG_PROXY_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+    networks:
+      docker-static-network:
+        ipv4_address: 192.168.8.187
+    depends_on:
+      - kong-migrations
+
+  konga:
+    image: pantsel/konga:latest
+    container_name: konga
+    ports:
+      - "1337:1337"  # Konga Web UI
+    environment:
+      NODE_ENV: "development"
+      TOKEN_SECRET: "konga-secret"  # Replace with a secret value
+    networks:
+      docker-static-network:
+        ipv4_address: 192.168.8.185  # Ensure this IP is not in use
+    depends_on:
+      - kong
+
+networks:
+  docker-static-network:
+    external: true

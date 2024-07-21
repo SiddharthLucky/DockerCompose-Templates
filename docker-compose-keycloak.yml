@@ -12,18 +12,20 @@ services:
     restart: unless-stopped
     networks:
       docker-static-network:
-        ipv4_address: 192.168.1.210
+        ipv4_address: 192.168.8.181
     environment:
       KC_DB: postgres
       KC_DB_URL_DATABASE: keycloak_db
       #Host name/ip address where the postgres is hosted
-      KC_DB_URL_HOST: 192.168.1.212
+      KC_DB_URL_HOST: 192.168.8.183
       KC_DB_USERNAME: admin
       KC_DB_PASSWORD: 1234
       KEYCLOAK_USER: user
       KEYCLOAK_PASSWORD: 1234
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: 1234
+      PROXY_ADDRESS_FORWARDING: true
+      KEYCLOAK_HOSTNAME: keycloak.admin-portal
 
 networks:
   docker-static-network:
